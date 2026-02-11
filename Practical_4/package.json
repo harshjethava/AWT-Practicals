@@ -1,0 +1,16 @@
+{
+  "name": "practical_4",
+  "version": "1.0.0",
+  "main": "Event.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.4",
+    "mongodb": "^7.1.0"
+  }
+}
