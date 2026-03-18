@@ -99,6 +99,29 @@ app.put('/api/tasks/:id/complete', (req, res) => {
   });
 });
 
+// Revoke a task (move from completed to remaining)
+app.put('/api/tasks/:id/revoke', (req, res) => {
+  const taskId = parseInt(req.params.id);
+  const task = tasks.find(t => t.id === taskId);
+
+  if (!task) {
+    return res.status(404).json({ success: false, message: 'Task not found!' });
+  }
+
+  if (!task.completed) {
+    return res.status(400).json({ success: false, message: 'Task is not completed!' });
+  }
+
+  task.completed = false;
+  delete task.completedAt;
+
+  res.json({ 
+    success: true, 
+    message: 'Task revoked and moved to remaining tasks!',
+    task 
+  });
+});
+
 // Delete a task
 app.delete('/api/tasks/:id', (req, res) => {
   const taskId = parseInt(req.params.id);
@@ -187,11 +210,17 @@ function getJavaScript() {
         return;
       }
 
-      container.innerHTML = tasks.map(task => '<div class="task-card completed"><div class="task-header"><h3 class="task-name">' + task.taskName + '</h3><span class="completed-badge">Completed</span></div><div class="task-dates"><div class="date-item"><span class="date-label">📅 Start:</span><span class="date-value">' + task.startDate + '</span></div><div class="date-item"><span class="date-label">📅 End:</span><span class="date-value">' + task.endDate + '</span></div></div><p class="created-at">Created: ' + task.createdAt + '</p><p class="completed-at">Completed: ' + task.completedAt + '</p><div class="task-actions"><button class="btn btn-delete" onclick="deleteTask(' + task.id + ')">🗑️ Delete</button></div></div>').join('');
+      container.innerHTML = tasks.map(task => '<div class="task-card completed"><div class="task-header"><h3 class="task-name">' + task.taskName + '</h3><span class="completed-badge">Completed</span></div><div class="task-dates"><div class="date-item"><span class="date-label">📅 Start:</span><span class="date-value">' + task.startDate + '</span></div><div class="date-item"><span class="date-label">📅 End:</span><span class="date-value">' + task.endDate + '</span></div></div><p class="created-at">Created: ' + task.createdAt + '</p><p class="completed-at">Completed: ' + task.completedAt + '</p><div class="task-actions"><button class="btn btn-revoke" onclick="revokeTask(' + task.id + ')">↩️ Revoke</button><button class="btn btn-delete" onclick="deleteTask(' + task.id + ')">🗑️ Delete</button></div></div>').join('');
     }
 
     function completeTask(taskId) {
       fetch('/api/tasks/' + taskId + '/complete', { method: 'PUT', headers: { 'Content-Type': 'application/json' } })
+      .then(res => res.json())
+      .then(data => { if (data.success) loadTasks(); });
+    }
+
+    function revokeTask(taskId) {
+      fetch('/api/tasks/' + taskId + '/revoke', { method: 'PUT', headers: { 'Content-Type': 'application/json' } })
       .then(res => res.json())
       .then(data => { if (data.success) loadTasks(); });
     }
@@ -209,7 +238,7 @@ function getJavaScript() {
 }
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
   console.log('✅ Task Manager server running at http://localhost:' + PORT);
 });

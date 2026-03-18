@@ -1,0 +1,17 @@
+{
+  "name": "practical-3",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "task": "node task.js"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
