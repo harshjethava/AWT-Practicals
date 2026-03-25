@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+*.venv
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media
+staticfiles
+
+# Environment
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# pip
+pip-selfcheck.json
+
+# System
+.DS_Store
+Thumbs.db
+
+# PyCharm
+.idea/
+
+# Node modules (if present)
+node_modules/
+
+# Jetbrains
+*.iml
+
+# temporary files
+tmp/
+
+# coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# pyenv
+.python-version

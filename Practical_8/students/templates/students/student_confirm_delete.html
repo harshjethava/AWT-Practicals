@@ -1,0 +1,12 @@
+{% extends 'students/base.html' %}
+{% block content %}
+<div class="card p-4 shadow-sm">
+    <h2 class="h4">Confirm Delete</h2>
+    <p>Are you sure you want to delete student <strong>{{ student.first_name }} {{ student.last_name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a class="btn btn-secondary" href="{% url 'students:index' %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

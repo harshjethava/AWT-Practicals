@@ -1,0 +1,4 @@
+Django==4.2.10
+mongoengine>=0.29.3
+pymongo[srv]>=4.5
+python-dotenv>=1.0
