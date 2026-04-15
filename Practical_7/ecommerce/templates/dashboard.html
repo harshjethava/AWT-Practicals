@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Purchase History</h2>
+{% if orders %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <ul>
+                    {% for item in order.items %}
+                    <li>{{ item.product.name }} (Qty: {{ item.quantity }}) - ${{ item.price * item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>${{ order.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No purchases yet.</p>
+{% endif %}
+
+<hr>
+<h3>Available Products</h3>
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            {% if product.image_url %}
+            <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text"><strong>${{ product.price }}</strong></p>
+                <a href="{{ url_for('main.product_detail', product_id=product.id) }}" class="btn btn-success">Buy Now</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
